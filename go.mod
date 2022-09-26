@@ -2,7 +2,7 @@ module github.com/streamingfast/firehose-acme
 
 go 1.18
 
-replace github.com/streamingfast/firehose-acme/types v0.0.0-20220831185201-05ffef22e3a0 => ./types
+replace github.com/starknet-graph/firehose-starknet/types v0.0.0 => ./types
 
 require (
 	github.com/ShinyTrinkets/overseer v0.3.0
@@ -17,7 +17,7 @@ require (
 	github.com/streamingfast/dmetrics v0.0.0-20220811180000-3e513057d17c
 	github.com/streamingfast/dstore v0.1.1-0.20220830184623-b0f0cc804743
 	github.com/streamingfast/firehose v0.1.1-0.20220909121738-2f3bc007ea2b
-	github.com/streamingfast/firehose-acme/types v0.0.0-20220831185201-05ffef22e3a0
+	github.com/starknet-graph/firehose-starknet/types v0.0.0
 	github.com/streamingfast/logging v0.0.0-20220511154537-ce373d264338
 	github.com/streamingfast/merger v0.0.3-0.20220909122033-9ca15beb25f5
 	github.com/streamingfast/node-manager v0.0.2-0.20220912235129-6c08463b0c01

@@ -19,8 +19,8 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	pbacme "github.com/starknet-graph/firehose-starknet/types/pb/zklend/starknet/type/v1"
 	"github.com/streamingfast/bstream"
-	pbacme "github.com/streamingfast/firehose-acme/types/pb/sf/acme/type/v1"
 	sftools "github.com/streamingfast/sf-tools"
 )
 

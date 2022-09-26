@@ -23,9 +23,9 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	pbacme "github.com/starknet-graph/firehose-starknet/types/pb/zklend/starknet/type/v1"
 	"github.com/streamingfast/bstream"
 	"github.com/streamingfast/dstore"
-	pbacme "github.com/streamingfast/firehose-acme/types/pb/sf/acme/type/v1"
 	"go.uber.org/zap"
 )
 

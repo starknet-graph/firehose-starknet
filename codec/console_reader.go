@@ -9,9 +9,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/starknet-graph/firehose-starknet/types"
+	pbacme "github.com/starknet-graph/firehose-starknet/types/pb/zklend/starknet/type/v1"
 	"github.com/streamingfast/bstream"
-	"github.com/streamingfast/firehose-acme/types"
-	pbacme "github.com/streamingfast/firehose-acme/types/pb/sf/acme/type/v1"
 	"go.uber.org/zap"
 )
 

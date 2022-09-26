@@ -17,8 +17,8 @@ package types
 import (
 	"fmt"
 
+	pbacme "github.com/starknet-graph/firehose-starknet/types/pb/zklend/starknet/type/v1"
 	"github.com/streamingfast/bstream"
-	pbacme "github.com/streamingfast/firehose-acme/types/pb/sf/acme/type/v1"
 	pbbstream "github.com/streamingfast/pbgo/sf/bstream/v1"
 	"google.golang.org/protobuf/proto"
 )
