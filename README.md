@@ -21,7 +21,7 @@ Then, invoke the script to generate the types:
 $ ./types/pb/generate.sh
 ```
 
-If any diff is found, make sure to also commit the `last_generate.txt` file so that others know what exact code versions were used to generate the types.
+If any diff is found, make sure to also commit the `last_generate.txt` file so that others know what exact code versions were used to generate the types. If you're making changes to the proto files, make sure to commit those proto changes first before running the script, otherwise checking out to the revision specified in `last_generate.txt` would yield the proto files _before_ the changes.
 
 ## License
 

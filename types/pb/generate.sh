@@ -25,7 +25,7 @@ function main() {
   set -e
   cd "$ROOT/types/pb" &>/dev/null
 
-  generate "sf/acme/type/v1/type.proto"
+  generate "zklend/starknet/type/v1/type.proto"
 
   echo "generate.sh - $(date) - $(whoami)" >./last_generate.txt
   echo "streamingfast/proto revision: $(GIT_DIR=$PROTO/.git git rev-parse HEAD)" >>./last_generate.txt
