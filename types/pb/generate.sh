@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd ../.. && pwd )"
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && cd ../.. && pwd)"
 
 # Protobuf definitions
 PROTO=${1:-"$ROOT/../proto"}
@@ -23,30 +23,31 @@ function main() {
   checks
 
   set -e
-  cd "$ROOT/types/pb" &> /dev/null
+  cd "$ROOT/types/pb" &>/dev/null
 
   generate "sf/acme/type/v1/type.proto"
 
-  echo "generate.sh - `date` - `whoami`" > ./last_generate.txt
-  echo "streamingfast/proto revision: `GIT_DIR=$PROTO/.git git rev-parse HEAD`" >> ./last_generate.txt
-  echo "streamingfast/firehose-acme/proto revision: `GIT_DIR=$ROOT/.git git log -n 1 --pretty=format:%h -- proto`" >> ./last_generate.txt
+  echo "generate.sh - $(date) - $(whoami)" >./last_generate.txt
+  echo "streamingfast/proto revision: $(GIT_DIR=$PROTO/.git git rev-parse HEAD)" >>./last_generate.txt
+  echo "streamingfast/firehose-acme/proto revision: $(GIT_DIR=$ROOT/.git git log -n 1 --pretty=format:%h -- proto)" >>./last_generate.txt
 }
 
 # usage:
 # - generate <protoPath>
 # - generate <protoBasePath/> [<file.proto> ...]
 function generate() {
-    base=""
-    if [[ "$#" -gt 1 ]]; then
-      base="$1"; shift
-    fi
+  base=""
+  if [[ "$#" -gt 1 ]]; then
+    base="$1"
+    shift
+  fi
 
-    for file in "$@"; do
-      protoc -I$PROTO -I$PROTO_ACME \
-        --go_out=. --go_opt=paths=source_relative \
-        --go-grpc_out=. --go-grpc_opt=paths=source_relative,require_unimplemented_servers=false \
-         $base$file
-    done
+  for file in "$@"; do
+    protoc -I$PROTO -I$PROTO_ACME \
+      --go_out=. --go_opt=paths=source_relative \
+      --go-grpc_out=. --go-grpc_opt=paths=source_relative,require_unimplemented_servers=false \
+      $base$file
+  done
 }
 
 function checks() {
@@ -54,9 +55,9 @@ function checks() {
   # version waits forever. So we pipe some wrong input to make it exit fast. This in the new version
   # which supports `--version` correctly print the version anyway and discard the standard input
   # so it's good with both version.
-  result=`printf "" | protoc-gen-go --version 2>&1 | grep -Eo v[0-9\.]+`
+  result=$(printf "" | protoc-gen-go --version 2>&1 | grep -Eo v[0-9\.]+)
   if [[ "$result" == "" ]]; then
-    echo "Your version of 'protoc-gen-go' (at `which protoc-gen-go`) is not recent enough."
+    echo "Your version of 'protoc-gen-go' (at $(which protoc-gen-go)) is not recent enough."
     echo ""
     echo "To fix your problem, perform those commands:"
     echo ""

@@ -4,12 +4,12 @@ port=${RPC_PORT:-3030}
 
 finality="optimistic"
 if [[ $# -gt 0 ]]; then
-    finality="$1"
+  finality="$1"
 fi
 
 if [[ "$finality" != "final" && "$finality" != "optimistic" ]]; then
-    echo "Finality parameter should be either 'final' or 'optimistic', got '$finality'"
-    exit 1
+  echo "Finality parameter should be either 'final' or 'optimistic', got '$finality'"
+  exit 1
 fi
 
 # This need to be adapted to the protocol being instrumented, this is an example taken from NEAR integration

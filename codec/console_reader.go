@@ -37,7 +37,7 @@ func NewConsoleReader(logger *zap.Logger, lines chan string) (*ConsoleReader, er
 	return l, nil
 }
 
-//todo: WTF?
+// todo: WTF?
 func (r *ConsoleReader) Done() <-chan interface{} {
 	return r.done
 }

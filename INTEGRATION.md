@@ -1,6 +1,7 @@
 # Chain Integration Document
 
 ## Concepts
+
 Blockchain data extraction occurs by a process `Reader`, and a firehose enabled node. We run an instrumented version of a process (usually a node) to sync the chain referred to as `Firehose`.
 The 'Firehose' process instruments the blockchain and outputs logs over the standard output pipe, which is subsequently read and processed by the `Reader` process.
 The Reader process will read, and stitch together the output of `Firehose` to create rich blockchain data models, which it will subsequently write to
@@ -8,7 +9,7 @@ files. The data models in question are [Google Protobuf Structures](https://deve
 
 #### Data Modeling
 
-Designing the  [Google Protobuf Structures](https://developers.google.com/protocol-buffers) for your given blockchain is one of the most important steps in an integrators journey.
+Designing the [Google Protobuf Structures](https://developers.google.com/protocol-buffers) for your given blockchain is one of the most important steps in an integrators journey.
 The data structures needs to represent as precisely as possible the on chain data and concepts. By carefully crafting the Protobuf structure, the next steps will be a lot simpler.
 The data model need.
 
@@ -19,19 +20,20 @@ https://github.com/streamingfast/proto-ethereum/blob/develop/sf/ethereum/codec/v
 
 We have built an end-to-end template, to start the on-boarding process of new chains. This solution consist of:
 
-*firehose-acme*
+_firehose-acme_
 As mentioned above, the `Reader` process consumes the data that is extracted and streamed from `Firehose`. In Actuality the Reader
 is one process out of multiple ones that creates the _Firehose_. These processes are launched by one application. This application is
 chain specific and by convention, we name is "firehose-<chain-name>". Though this application is chain specific, the structure of the application
 is standardized and is quite similar from chain to chain. For convenience, we have create a boiler plate app to help you get started.
 We named our chain `Acme` this the app is [firehose-acme](https://github.com/streamingfast/firehose-acme)
 
-*DeepMind*
+_DeepMind_
 `Deepmind` consist of an instrumented syncing node. We have created a "dummy" chain to simulate a node process syncing that can be found [https://github.com/streamingfast/dummy-blockchain](https://github.com/streamingfast/dummy-blockchain).
 
 ## Setting up the dummy chain
 
 Clone the repository:
+
 ```bash
 git clone https://github.com/streamingfast/dummy-blockchain.git
 cd dummy-blockchain
@@ -44,11 +46,13 @@ go mod download
 ```
 
 Then build the binary:
+
 ```bash
 make build
 ```
 
 Ensure the build was successful
+
 ```bash
 ./dchain --version
 ```
@@ -75,16 +79,17 @@ modify the flag `reader-node-path: "dchain"` to point to the path of your `dchai
 
 ## Starting and testing Firehose
 
-*all subsequent commands are run from the `devel/standard/` directory*
+_all subsequent commands are run from the `devel/standard/` directory_
 
 Start `fireacme`
+
 ```bash
 ./start.sh
 ```
 
 This will launch `fireacme` application. Behind the scenes we are starting 3 sub processes: `reader-node`, `relayer`, `firehose`
 
-*reader-node*
+_reader-node_
 
 The reader-node is a process that runs and manages the blockchain node Geth. It consumes the blockchain data that is
 extracted from our instrumented Geth node. The instrumented Geth node outputs individual block data. The reader-node
@@ -103,6 +108,7 @@ The one-block files and 100-block files will be store in data-dir/storage/merged
 The naming convention of the file is the number of the first block in the file.
 
 As the instrumented node process outputs blocks, you can see the merged block files in the working dir
+
 ```bash
 ls -las ./firehose-data/storage/merged-blocks
 ```

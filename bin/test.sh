@@ -1,24 +1,23 @@
 #!/usr/bin/env bash
 
-ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd )"
-
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && cd .. && pwd)"
 
 main() {
-  pushd "$ROOT" &> /dev/null
+  pushd "$ROOT" &>/dev/null
 
   while getopts "h" opt; do
     case $opt in
-      h) usage && exit 0;;
-      \?) usage_error "Invalid option: -$OPTARG";;
+    h) usage && exit 0 ;;
+    \?) usage_error "Invalid option: -$OPTARG" ;;
     esac
   done
-  shift $((OPTIND-1))
+  shift $((OPTIND - 1))
 
   set -e
 
-  pushd types &> /dev/null
-    go test ./... "$@"
-  popd&> /dev/null
+  pushd types &>/dev/null
+  go test ./... "$@"
+  popd &>/dev/null
 
   go test ./... "$@"
 }

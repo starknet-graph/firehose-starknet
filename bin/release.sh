@@ -1,22 +1,22 @@
 #!/usr/bin/env bash
 
-ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd )"
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && cd .. && pwd)"
 
 dry_run=""
 force="false"
 
 main() {
-  pushd "$ROOT" &> /dev/null
+  pushd "$ROOT" &>/dev/null
 
   while getopts "hnf" opt; do
     case $opt in
-      h) usage && exit 0;;
-      n) dry_run="true";;
-      f) force="true";;
-      \?) usage_error "Invalid option: -$OPTARG";;
+    h) usage && exit 0 ;;
+    n) dry_run="true" ;;
+    f) force="true" ;;
+    \?) usage_error "Invalid option: -$OPTARG" ;;
     esac
   done
-  shift $((OPTIND-1))
+  shift $((OPTIND - 1))
 
   verify_github_token
   verify_keybase
@@ -25,9 +25,10 @@ main() {
     usage_error "Only one of -n (dry run) or -f (force) can be provided at a time"
   fi
 
-  version="$1"; shift
+  version="$1"
+  shift
   if [[ "$version" == "" ]]; then
-    printf "What version do you want to release (current latest is `git describe --tags --abbrev=0`)? "
+    printf "What version do you want to release (current latest is $(git describe --tags --abbrev=0))? "
     read version
   fi
 
@@ -76,7 +77,7 @@ verify_github_token() {
 }
 
 verify_keybase() {
-  if ! command keybase &> /dev/null; then
+  if ! command keybase &>/dev/null; then
     echo "Keybase is required to sign the release (the checksum of all the artifacts"
     echo "to be precise)."
     echo ""

@@ -11,8 +11,8 @@ export PATH=$PATH:/app
 #        itself creates a `data` subfolder. This is why we have `/data/data`
 #        here as the path to check if we are inside a Node Manager instance
 #        or a pure process (i.e. without Node Manager)
-if [[ -d /data/data  ]]; then
-    cat /etc/motd_node_manager
+if [[ -d /data/data ]]; then
+  cat /etc/motd_node_manager
 else
-    cat /etc/motd_generic
+  cat /etc/motd_generic
 fi
