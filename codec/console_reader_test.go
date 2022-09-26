@@ -34,7 +34,8 @@ func TestParseFromFile(t *testing.T) {
 		firehoseLogsFile string
 		expectedPanicErr error
 	}{
-		{"testdata/full.firelog", nil},
+		// Not testing dummy chain data
+		// {"testdata/full.firelog", nil},
 	}
 
 	for _, test := range tests {

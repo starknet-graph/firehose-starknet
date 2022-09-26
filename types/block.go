@@ -15,14 +15,23 @@ func BlockFromProto(b *pbacme.Block) (*bstream.Block, error) {
 		return nil, fmt.Errorf("unable to marshal to binary form: %s", err)
 	}
 
+	blockNumber := b.Number()
+
 	block := &bstream.Block{
 		Id:             b.ID(),
-		Number:         b.Number(),
+		Number:         blockNumber,
 		PreviousId:     b.PreviousID(),
 		Timestamp:      b.Time(),
-		LibNum:         b.Number() - 1,
 		PayloadKind:    pbbstream.Protocol_UNKNOWN,
 		PayloadVersion: 1,
+	}
+
+	// For simpliciy's sake we're pretending StarkNet cannot re-org for more than 10 blocks
+	if blockNumber <= 10 {
+		block.LibNum = 0
+	} else {
+
+		block.LibNum = blockNumber - 10
 	}
 
 	return bstream.GetBlockPayloadSetter(block, content)
