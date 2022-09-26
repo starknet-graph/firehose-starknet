@@ -2,6 +2,34 @@
 
 Firehose implementation for [StarkNet](https://starknet.io/), bootstrapped from [streamingfast/firehose-acme](https://github.com/streamingfast/firehose-acme/commit/6966e1a3aaf49d2d398686333967299e97bde05b). This project is maintained by the [zkLend](https://zklend.com/) team.
 
+## Running for development
+
+_Note that these instructions are only suitable for development purposes. For production workload, you'd probably want to run a high-availability setup._
+
+To run a Firehose-enabled `pathfinder` node, you need to install the [instrumented fork version](https://github.com/starknet-graph/pathfinder) we also maintain:
+
+```bash
+$ cargo install --locked --git https://github.com/starknet-graph/pathfinder --branch patch pathfinder
+```
+
+_Alternatively, you can also build the binary without installing. Just make sure to modify [standard.yaml](./devel/standard/standard.yaml) to point to the resulting binary._
+
+Then, replace `ETHEREUM_URL` in [standard.yaml](./devel/standard/standard.yaml) with a valid Ethereum JSON-RPC URL for the L1 network you're going to sync.
+
+After which you can just run:
+
+```bash
+$ cd ./devel/standard
+$ mkdir -p ./pathfinder-data
+$ ./start.sh
+```
+
+The instrumented `pathfinder` node should now start syncing. You can test the setup by subscribing to the block stream with [grpcurl](https://github.com/fullstorydev/grpcurl):
+
+```bash
+$ grpcurl -plaintext -d '{"start_block_num": 5}' localhost:18015 sf.firehose.v2.Stream.Blocks
+```
+
 ## Generating protobuf types
 
 A [script](./types/pb/generate.sh) is available for generating Go types from protobuf files. Unless you have a specific reason to use another version, make sure you have the exact versions of the following tools installed:
