@@ -2,6 +2,8 @@ module github.com/streamingfast/firehose-acme
 
 go 1.18
 
+replace github.com/streamingfast/firehose-acme/types v0.0.0-20220831185201-05ffef22e3a0 => ./types
+
 require (
 	github.com/ShinyTrinkets/overseer v0.3.0
 	github.com/spf13/cobra v1.4.0
