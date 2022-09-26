@@ -27,7 +27,7 @@ type Superviser struct {
 }
 
 func (s *Superviser) GetName() string {
-	return "acme"
+	return "starknet"
 }
 
 func NewSuperviser(
