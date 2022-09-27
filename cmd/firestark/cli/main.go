@@ -19,7 +19,7 @@ import (
 	"go.uber.org/zap"
 )
 
-var rootLog, _ = logging.RootLogger("fireacme", "github.com/streamingfast/firehose-acme/cmd/fireacme/cli")
+var rootLog, _ = logging.RootLogger("fireacme", "github.com/streamingfast/firehose-acme/cmd/firestark/cli")
 
 var RootCmd = &cobra.Command{Use: "fireacme", Short: "Acme on StreamingFast"}
 var allFlags = make(map[string]bool) // used as global because of async access to cobra init functions
