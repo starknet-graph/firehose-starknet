@@ -3,7 +3,7 @@
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 clean=
-fireacme="$ROOT/../firestark"
+firestark="$ROOT/../firestark"
 
 main() {
   pushd "$ROOT" &>/dev/null
@@ -24,7 +24,7 @@ main() {
     rm -rf firehose-data &>/dev/null || true
   fi
 
-  exec $fireacme -c $(basename $ROOT).yaml start "$@"
+  exec $firestark -c $(basename $ROOT).yaml start "$@"
 }
 
 usage_error() {

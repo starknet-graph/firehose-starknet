@@ -41,7 +41,7 @@ func registerCommonNodeFlags(cmd *cobra.Command, flagPrefix string, managerAPIAd
 		is intercepted, split line by line and each line is then transformed and logged through the Firehose stack
 		logging system. The transformation extracts the level and remove the timestamps creating a 'sanitized' version
 		of the logs emitted by the blockchain's managed client process. If this is not desirable, disabled the flag
-		and all the invoked process standard error will be redirect to 'fireacme' standard's output.
+		and all the invoked process standard error will be redirect to 'firestark' standard's output.
 	`, flagPrefix+"path"))
 	cmd.Flags().String(flagPrefix+"manager-api-addr", managerAPIAddr, "Acme node manager API address")
 	cmd.Flags().Duration(flagPrefix+"readiness-max-latency", 30*time.Second, "Determine the maximum head block latency at which the instance will be determined healthy. Some chains have more regular block production than others.")
