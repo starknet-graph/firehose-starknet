@@ -1,0 +1,37 @@
+name: Build Docker Image with pathfinder
+
+on:
+  workflow_dispatch:
+    inputs:
+      firestarkVersion:
+        description: "firestark version"
+        required: true
+      pathfinderVersion:
+        description: "pathfinder version"
+        required: true
+
+jobs:
+  build:
+    name: "Build"
+    runs-on: "ubuntu-latest"
+
+    env:
+      DOCKER_REPOSITORY: "starknet/firestark"
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v2"
+
+      - name: "Login to Docker Hub"
+        uses: "docker/login-action@v1.6.0"
+        with:
+          username: "${{ secrets.DOCKER_HUB_USERNAME }}"
+          password: "${{ secrets.DOCKER_HUB_PASSWORD }}"
+
+      - name: "Build Docker image"
+        run: |
+          docker build -t ${DOCKER_REPOSITORY}:${{ github.event.inputs.firestarkVersion }}-pathfinder-${{ github.event.inputs.pathfinderVersion }} --build-arg FIRESTARK_VERSION=${{ github.event.inputs.firestarkVersion }} --build-arg PATHFINDER_VERSION=${{ github.event.inputs.pathfinderVersion }} -f ./Dockerfile.pathfinder .
+
+      - name: "Push Docker image"
+        run: |
+          docker push ${DOCKER_REPOSITORY}:${{ github.event.inputs.firestarkVersion }}-pathfinder-${{ github.event.inputs.pathfinderVersion }}

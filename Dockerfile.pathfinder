@@ -1,0 +1,10 @@
+ARG FIRESTARK_VERSION
+ARG PATHFINDER_VERSION
+
+FROM starknet/firestark:${FIRESTARK_VERSION} AS firestark
+
+FROM starknet/pathfinder-firehose:${PATHFINDER_VERSION}
+
+COPY --from=firestark /usr/bin/firestark /usr/bin/firestark
+
+ENTRYPOINT ["firestark"]
