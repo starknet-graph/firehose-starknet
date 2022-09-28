@@ -1,0 +1,74 @@
+# IMPORTANT
+#
+# This is a simple example showcasing how each component of the system can be separated and thus
+# individually scaled. However, it still makes use of a local shared folder on the same machine,
+# making such a separation largely pointless.
+#
+# For production workload you'd probably want to deploy the services on different machines via
+# something like Docker Swarm or Kubernetes. This file only serves to demonstrate the concept.
+
+version: "3.8"
+services:
+  reader:
+    image: "starknet/firestark:0.1.0-pathfinder-0.3.5"
+    user: "root"
+    command:
+      - "--config-file"
+      - ""
+      - "start"
+      - "reader-node"
+      - "--common-one-block-store-url"
+      - "file:///firehose-data/storage/one-blocks"
+      - "--reader-node-path"
+      - "pathfinder"
+      - "--reader-node-arguments"
+      - "--data-directory /pathfinder-data --ethereum.url ${ETHEREUM_URL} --poll-pending TRUE"
+    volumes:
+      - "./firehose-data:/firehose-data"
+      - "./pathfinder-data:/pathfinder-data"
+
+  merger:
+    image: "starknet/firestark:0.1.0"
+    command:
+      - "--config-file"
+      - ""
+      - "start"
+      - "merger"
+      - "--common-one-block-store-url"
+      - "file:///firehose-data/storage/one-blocks"
+      - "--common-merged-blocks-store-url"
+      - "file:///firehose-data/storage/merged-blocks"
+    volumes:
+      - "./firehose-data:/firehose-data"
+
+  relayer:
+    image: "starknet/firestark:0.1.0"
+    command:
+      - "--config-file"
+      - ""
+      - "start"
+      - "relayer"
+      - "--common-one-block-store-url"
+      - "file:///firehose-data/storage/one-blocks"
+      - "--relayer-source"
+      - "reader:18010"
+    volumes:
+      - "./firehose-data:/firehose-data"
+
+  firehose:
+    image: "starknet/firestark:0.1.0"
+    command:
+      - "--config-file"
+      - ""
+      - "start"
+      - "firehose"
+      - "--common-one-block-store-url"
+      - "file:///firehose-data/storage/one-blocks"
+      - "--common-merged-blocks-store-url"
+      - "file:///firehose-data/storage/merged-blocks"
+      - "--common-live-blocks-addr"
+      - "relayer:18014"
+    ports:
+      - "18015:18015"
+    volumes:
+      - "./firehose-data:/firehose-data"
