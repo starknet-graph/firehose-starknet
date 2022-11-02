@@ -230,6 +230,8 @@ func (ctx *parseCtx) trxBegin(params []string) error {
 		trx.Type = pbacme.TransactionType_DECLARE
 	case "L1_HANDLER":
 		trx.Type = pbacme.TransactionType_L1_HANDLER
+	case "DEPLOY_ACCOUNT":
+		trx.Type = pbacme.TransactionType_DEPLOY_ACCOUNT
 	default:
 		return fmt.Errorf("unknown transaction type: %s", params[1])
 	}
