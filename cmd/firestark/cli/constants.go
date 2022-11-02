@@ -38,7 +38,7 @@ const (
 	// sync the chain with the blockchain network. For example on Ethereum where
 	// our standard instrumentation if using the Geth client, value is `geth`, on EOSIO
 	// chain, it's `nodeos`.
-	ChainExecutableName = "dchain"
+	ChainExecutableName = "dummy-blockchain"
 
 	//
 	/// Standard Values
