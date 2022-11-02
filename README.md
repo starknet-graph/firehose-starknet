@@ -70,6 +70,8 @@ $ protoc --version
 libprotoc 3.19.4
 $ protoc-gen-go --version
 protoc-gen-go v1.27.1
+$ protoc-gen-go-grpc --version
+protoc-gen-go-grpc 1.2.0
 ```
 
 You will also need to have [streamingfast/proto](https://github.com/streamingfast/proto) cloned in the same folder where the current repository lives.
