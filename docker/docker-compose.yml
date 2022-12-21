@@ -10,7 +10,7 @@
 version: "3.8"
 services:
   reader:
-    image: "starknet/firestark:0.1.1-pathfinder-0.3.8"
+    image: "starknet/firestark:0.1.1-pathfinder-0.4.5"
     user: "root"
     command:
       - "--config-file"
