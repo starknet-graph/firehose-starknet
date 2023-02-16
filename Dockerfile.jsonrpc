@@ -1,0 +1,10 @@
+ARG FIRESTARK_VERSION
+ARG JSONRPC_TO_FIRESTARK_VERSION
+
+FROM starknet/firestark:${FIRESTARK_VERSION} AS firestark
+
+FROM starknet/jsonrpc-to-firestark:${JSONRPC_TO_FIRESTARK_VERSION}
+
+COPY --from=firestark /usr/bin/firestark /usr/bin/firestark
+
+ENTRYPOINT ["firestark"]
