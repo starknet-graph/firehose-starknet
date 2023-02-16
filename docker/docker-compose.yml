@@ -10,7 +10,7 @@
 version: "3.8"
 services:
   reader:
-    image: "starknet/firestark:0.1.1-pathfinder-0.4.5"
+    image: "starknet/firestark:0.1.2-pathfinder-0.4.5"
     user: "root"
     command:
       - "--config-file"
@@ -28,7 +28,7 @@ services:
       - "./pathfinder-data:/pathfinder-data"
 
   merger:
-    image: "starknet/firestark:0.1.1"
+    image: "starknet/firestark:0.1.2"
     command:
       - "--config-file"
       - ""
@@ -42,7 +42,7 @@ services:
       - "./firehose-data:/firehose-data"
 
   relayer:
-    image: "starknet/firestark:0.1.1"
+    image: "starknet/firestark:0.1.2"
     command:
       - "--config-file"
       - ""
@@ -56,7 +56,7 @@ services:
       - "./firehose-data:/firehose-data"
 
   firehose:
-    image: "starknet/firestark:0.1.1"
+    image: "starknet/firestark:0.1.2"
     command:
       - "--config-file"
       - ""
