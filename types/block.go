@@ -26,12 +26,12 @@ func BlockFromProto(b *pbacme.Block) (*bstream.Block, error) {
 		PayloadVersion: 1,
 	}
 
-	// For simpliciy's sake we're pretending StarkNet cannot re-org for more than 10 blocks
-	if blockNumber <= 10 {
+	// For simpliciy's sake we're pretending StarkNet cannot re-org for more than 100 blocks
+	if blockNumber <= 100 {
 		block.LibNum = 0
 	} else {
 
-		block.LibNum = blockNumber - 10
+		block.LibNum = blockNumber - 100
 	}
 
 	return bstream.GetBlockPayloadSetter(block, content)
