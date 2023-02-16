@@ -91,7 +91,7 @@ func (s *Superviser) lastBlockSeenLogPlugin(line string) {
 		return
 	}
 
-	blockNumStr := line[18:]
+	blockNumStr := line[17:]
 
 	blockNum, err := strconv.ParseUint(blockNumStr, 10, 64)
 	if err != nil {
