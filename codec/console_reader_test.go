@@ -20,11 +20,10 @@ import (
 	"io/ioutil"
 	"os"
 	"os/exec"
-	"reflect"
 	"strings"
 	"testing"
 
-	"github.com/starknet-graph/firehose-starknet/types"
+	firecore "github.com/streamingfast/firehose-core"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -51,13 +50,10 @@ func TestParseFromFile(t *testing.T) {
 			buf.Write([]byte("["))
 
 			for first := true; true; first = false {
-				out, err := cr.ReadBlock()
+				block, err := cr.readBlock()
 				if err == io.EOF {
 					break
 				}
-				require.NoError(t, err)
-
-				block, err := types.BlockDecoder(out)
 				require.NoError(t, err)
 
 				if !first {
@@ -98,15 +94,6 @@ func TestParseFromFile(t *testing.T) {
 	}
 }
 
-func isNil(v interface{}) bool {
-	if v == nil {
-		return true
-	}
-
-	rv := reflect.ValueOf(v)
-	return rv.Kind() == reflect.Ptr && rv.IsNil()
-}
-
 func testFileConsoleReader(t *testing.T, filename string) *ConsoleReader {
 	t.Helper()
 
@@ -124,9 +111,10 @@ func testReaderConsoleReader(t *testing.T, lines chan string, closer func()) *Co
 	t.Helper()
 
 	l := &ConsoleReader{
-		lines:  lines,
-		close:  closer,
-		logger: zlog,
+		lines:        lines,
+		blockEncoder: firecore.NewGenericBlockEncoder(1),
+		close:        closer,
+		logger:       zlog,
 	}
 
 	return l

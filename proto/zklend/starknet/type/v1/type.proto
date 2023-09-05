@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package zklend.starknet.type.v1;
 
-option go_package = "github.com/starknet-graph/firehose-starknet/types/pb/zklend/starknet/type/v1;pbacme";
+option go_package = "github.com/streamingfast/firehose-acme/pb/zklend/starknet/type/v1;pbacme";
 
 // This file only contains the bare minimum types for the POC. It's far from a complete
 // representation of a StarkNet network's history as required by the Firehose protocol. As a result,

@@ -10,32 +10,37 @@ import (
 	"strings"
 	"time"
 
-	"github.com/starknet-graph/firehose-starknet/types"
-	pbacme "github.com/starknet-graph/firehose-starknet/types/pb/zklend/starknet/type/v1"
 	"github.com/streamingfast/bstream"
+	pbacme "github.com/streamingfast/firehose-acme/pb/zklend/starknet/type/v1"
+	firecore "github.com/streamingfast/firehose-core"
+	"github.com/streamingfast/logging"
+	"github.com/streamingfast/node-manager/mindreader"
 	"go.uber.org/zap"
 )
 
 // ConsoleReader is what reads the `geth` output directly. It builds
 // up some LogEntry objects. See `LogReader to read those entries .
 type ConsoleReader struct {
-	lines chan string
-	close func()
+	lines        chan string
+	blockEncoder firecore.BlockEncoder
+	close        func()
 
 	ctx  *parseCtx
 	done chan interface{}
 
 	logger *zap.Logger
+	tracer logging.Tracer
 }
 
-func NewConsoleReader(logger *zap.Logger, lines chan string) (*ConsoleReader, error) {
-	l := &ConsoleReader{
-		lines:  lines,
-		close:  func() {},
-		done:   make(chan interface{}),
-		logger: logger,
-	}
-	return l, nil
+func NewConsoleReader(lines chan string, blockEncoder firecore.BlockEncoder, logger *zap.Logger, tracer logging.Tracer) (mindreader.ConsolerReader, error) {
+	return &ConsoleReader{
+		lines:        lines,
+		blockEncoder: blockEncoder,
+		close:        func() {},
+		done:         make(chan interface{}),
+		logger:       logger,
+		tracer:       tracer,
+	}, nil
 }
 
 // todo: WTF?
@@ -100,13 +105,22 @@ func newContext(logger *zap.Logger, height uint64) *parseCtx {
 	}
 }
 
-func (r *ConsoleReader) ReadBlock() (out *bstream.Block, err error) {
+func (r *ConsoleReader) readBlock() (out *pbacme.Block, err error) {
 	block, err := r.next()
 	if err != nil {
 		return nil, err
 	}
 
-	return types.BlockFromProto(block)
+	return block, nil
+}
+
+func (r *ConsoleReader) ReadBlock() (out *bstream.Block, err error) {
+	block, err := r.readBlock()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.blockEncoder.Encode(block)
 }
 
 const (

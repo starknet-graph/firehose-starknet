@@ -1,43 +1,32 @@
 package main
 
 import (
-	"fmt"
-	"strings"
-	"time"
-
-	"github.com/streamingfast/firehose-acme/cmd/firestark/cli"
+	"github.com/streamingfast/firehose-acme/codec"
+	pbacme "github.com/streamingfast/firehose-acme/pb/zklend/starknet/type/v1"
+	firecore "github.com/streamingfast/firehose-core"
 )
 
-// Commit sha1 value, injected via go build `ldflags` at build time
-var commit = ""
-
-// Version value, injected via go build `ldflags` at build time
-var version = "dev"
-
-// Date value, injected via go build `ldflags` at build time
-var date = time.Now().Format(time.RFC3339)
-
-func init() {
-	cli.RootCmd.Version = versionString()
-}
-
 func main() {
-	cli.Main()
+	firecore.Main(&firecore.Chain[*pbacme.Block]{
+		ShortName:            "stark",
+		LongName:             "Starknet",
+		ExecutableName:       "dummy-blockchain",
+		FullyQualifiedModule: "github.com/streamingfast/firehose-acme",
+		Version:              version,
+
+		Protocol:        "STK",
+		ProtocolVersion: 1,
+
+		FirstStreamableBlock: 0,
+
+		BlockFactory:         func() firecore.Block { return new(pbacme.Block) },
+		ConsoleReaderFactory: codec.NewConsoleReader,
+
+		Tools: &firecore.ToolsConfig[*pbacme.Block]{
+			BlockPrinter: printBlock,
+		},
+	})
 }
 
-func versionString() string {
-	var labels []string
-	if len(commit) >= 7 {
-		labels = append(labels, fmt.Sprintf("Commit %s", commit[0:7]))
-	}
-
-	if date != "" {
-		labels = append(labels, fmt.Sprintf("Built %s", date))
-	}
-
-	if len(labels) == 0 {
-		return version
-	}
-
-	return fmt.Sprintf("%s (%s)", version, strings.Join(labels, ", "))
-}
+// Version value, injected via go build `ldflags` at build time, **must** not be removed or inlined
+var version = "dev"

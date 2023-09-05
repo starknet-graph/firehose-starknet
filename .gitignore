@@ -19,7 +19,9 @@
 *.spkg
 
 /firestark
+/build
 /dist
+/build
 
 firehose-data
 pathfinder-data
