@@ -51,7 +51,7 @@ services:
       - "--common-one-block-store-url"
       - "file:///firehose-data/storage/one-blocks"
       - "--relayer-source"
-      - "reader:18010"
+      - "reader:10010"
     volumes:
       - "./firehose-data:/firehose-data"
 
@@ -67,8 +67,8 @@ services:
       - "--common-merged-blocks-store-url"
       - "file:///firehose-data/storage/merged-blocks"
       - "--common-live-blocks-addr"
-      - "relayer:18014"
+      - "relayer:10014"
     ports:
-      - "18015:18015"
+      - "10015:10015"
     volumes:
       - "./firehose-data:/firehose-data"
