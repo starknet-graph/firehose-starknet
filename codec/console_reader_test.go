@@ -112,7 +112,7 @@ func testReaderConsoleReader(t *testing.T, lines chan string, closer func()) *Co
 
 	l := &ConsoleReader{
 		lines:        lines,
-		blockEncoder: firecore.NewGenericBlockEncoder(1),
+		blockEncoder: firecore.NewBlockEncoder(),
 		close:        closer,
 		logger:       zlog,
 	}
