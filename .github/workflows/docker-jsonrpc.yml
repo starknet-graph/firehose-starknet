@@ -1,4 +1,4 @@
-name: Build Docker Image with jsonrpc-to-firestark
+name: "Build Docker images with jsonrpc-to-firestark"
 
 on:
   workflow_dispatch:
@@ -11,16 +11,85 @@ on:
         required: true
 
 jobs:
-  build:
-    name: "Build"
+  image-info:
+    name: "Extract image info"
     runs-on: "ubuntu-latest"
+    outputs:
+      tag: ${{ steps.derive.outputs.tag }}
 
     env:
       DOCKER_REPOSITORY: "starknet/firestark"
 
     steps:
+      - id: "derive"
+        name: "Derive image info from workflow input"
+        run: |
+          echo "tag=${DOCKER_REPOSITORY}:${{ github.event.inputs.firestarkVersion }}-jsonrpc-${{ github.event.inputs.jsonrpcToFirestarkVersion }}" >> $GITHUB_OUTPUT
+
+  build:
+    name: "Build for ${{ matrix.platform }}"
+    runs-on: "ubuntu-latest"
+    needs:
+      - "image-info"
+
+    strategy:
+      matrix:
+        include:
+          - tag: "amd64"
+            platform: "linux/amd64"
+            artifact: "amd64.tar.gz"
+          - tag: "arm64"
+            platform: "linux/arm64/v8"
+            artifact: "arm64.tar.gz"
+
+    steps:
       - name: "Checkout"
-        uses: "actions/checkout@v2"
+        uses: "actions/checkout@v3"
+
+      - name: "Build Docker image"
+        run: |
+          docker buildx build \
+            -t ${{ needs.image-info.outputs.tag }}-${{ matrix.tag }} \
+            --build-arg FIRESTARK_VERSION=${{ github.event.inputs.firestarkVersion }} \
+            --build-arg JSONRPC_TO_FIRESTARK_VERSION=${{ github.event.inputs.jsonrpcToFirestarkVersion }} \
+            --platform "${{ matrix.platform }}" \
+            --output=type=docker \
+            -f ./Dockerfile.jsonrpc .
+
+      - name: "Export Docker image"
+        run: |
+          docker save ${{ needs.image-info.outputs.tag }}-${{ matrix.tag }} | gzip > /tmp/${{ matrix.artifact }}
+
+      - name: "Upload Docker image artifact"
+        uses: "actions/upload-artifact@v3"
+        with:
+          name: "${{ matrix.artifact }}"
+          path: "/tmp/${{ matrix.artifact }}"
+
+  push:
+    name: "Push Docker images"
+    runs-on: "ubuntu-latest"
+    needs:
+      - "image-info"
+      - "build"
+
+    steps:
+      - name: "Download linux/amd64 image"
+        uses: "actions/download-artifact@v3"
+        with:
+          name: "amd64.tar.gz"
+          path: "/tmp/"
+
+      - name: "Download linux/arm64/v8 image"
+        uses: "actions/download-artifact@v3"
+        with:
+          name: "arm64.tar.gz"
+          path: "/tmp/"
+
+      - name: "Load Docker images"
+        run: |
+          docker load < /tmp/amd64.tar.gz
+          docker load < /tmp/arm64.tar.gz
 
       - name: "Login to Docker Hub"
         uses: "docker/login-action@v1.6.0"
@@ -28,10 +97,11 @@ jobs:
           username: "${{ secrets.DOCKER_HUB_USERNAME }}"
           password: "${{ secrets.DOCKER_HUB_PASSWORD }}"
 
-      - name: "Build Docker image"
+      - name: "Push Docker images"
         run: |
-          docker build -t ${DOCKER_REPOSITORY}:${{ github.event.inputs.firestarkVersion }}-jsonrpc-${{ github.event.inputs.jsonrpcToFirestarkVersion }} --build-arg FIRESTARK_VERSION=${{ github.event.inputs.firestarkVersion }} --build-arg JSONRPC_TO_FIRESTARK_VERSION=${{ github.event.inputs.jsonrpcToFirestarkVersion }} -f ./Dockerfile.jsonrpc .
-
-      - name: "Push Docker image"
-        run: |
-          docker push ${DOCKER_REPOSITORY}:${{ github.event.inputs.firestarkVersion }}-jsonrpc-${{ github.event.inputs.jsonrpcToFirestarkVersion }}
+          docker push ${{ needs.image-info.outputs.tag }}-amd64
+          docker push ${{ needs.image-info.outputs.tag }}-arm64
+          docker manifest create ${{ needs.image-info.outputs.tag }} \
+            ${{ needs.image-info.outputs.tag }}-amd64 \
+            ${{ needs.image-info.outputs.tag }}-arm64
+          docker manifest push ${{ needs.image-info.outputs.tag }}
