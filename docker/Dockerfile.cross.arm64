@@ -1,0 +1,16 @@
+FROM golang:1.21-bullseye AS build
+
+ARG VERSION
+
+COPY . /src
+WORKDIR /src
+
+RUN GOOS=linux GOARCH=arm64 go build -ldflags "-X main.version=$VERSION" ./cmd/firestark
+
+FROM --platform=linux/arm64/v8 debian:bullseye-slim
+
+LABEL org.opencontainers.image.source=https://github.com/starknet-graph/firehose-starknet
+
+COPY --from=build /src/firestark /usr/bin/firestark
+
+ENTRYPOINT ["/usr/bin/firestark"]
