@@ -26,7 +26,7 @@ func (b *Block) GetFirehoseBlockTime() time.Time {
 }
 
 func (b *Block) GetFirehoseBlockVersion() int32 {
-	return 0
+	return 1
 }
 
 func (b *Block) GetFirehoseBlockLIBNum() uint64 {
