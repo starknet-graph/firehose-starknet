@@ -1,0 +1,10 @@
+ARG FIRESTARK_VERSION
+ARG JUNO_VERSION
+
+FROM starknet/firestark:${FIRESTARK_VERSION} AS firestark
+
+FROM starknet/juno-firehose:${JUNO_VERSION}
+
+COPY --from=firestark /usr/bin/firestark /usr/bin/firestark
+
+ENTRYPOINT ["firestark"]

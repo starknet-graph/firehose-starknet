@@ -14,6 +14,10 @@ These images are pure `firestark` images with no StarkNet client bundled. These 
 
 These images are `firestark` images bundled with [instrumented pathfinder](https://github.com/starknet-graph/pathfinder) builds. They work as an out-of-the-box solution that you can use to quickly spin up a working cluster.
 
+### starknet/firestark:${FIRESTARK_VERSION}-juno-${PATHFINDER_VERSION}
+
+These images are `firestark` images bundled with [instrumented juno](https://github.com/starknet-graph/juno) builds. They work as an out-of-the-box solution that you can use to quickly spin up a working cluster.
+
 ### starknet/firestark:${FIRESTARK_VERSION}-jsonrpc-${JSONRPC_TO_FIRESTARK_VERSION}
 
 Similar to the `pathfinder` variant but these images come with [jsonrpc-to-firestark](https://github.com/starknet-graph/jsonrpc-to-firestark) bundled instead. [jsonrpc-to-firestark](https://github.com/starknet-graph/jsonrpc-to-firestark) is useful when you have an already-syned Starknet node, as it's much faster than syncing an instrumented node from scratch.
