@@ -10,7 +10,7 @@
 version: "3.8"
 services:
   reader:
-    image: "starknet/firestark:0.2.1-pathfinder-0.9.5"
+    image: "starknet/firestark:0.2.1-pathfinder-0.10.6"
     user: "root"
     command:
       - "--config-file"
@@ -22,7 +22,7 @@ services:
       - "--reader-node-path"
       - "pathfinder"
       - "--reader-node-arguments"
-      - "--data-directory /pathfinder-data --ethereum.url ${ETHEREUM_URL} --poll-pending true"
+      - "--data-directory /pathfinder-data --ethereum.url ${ETHEREUM_URL}"
     volumes:
       - "./firehose-data:/firehose-data"
       - "./pathfinder-data:/pathfinder-data"
