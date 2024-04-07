@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 package zklend.starknet.transform.v1;
+
 option go_package = "github.com/starknet-graph/firehose-starknet/types/pb/zklend/starknet/type/v1;pbtransform";
 
 // Stream block headers only. The `transactions` field is always empty.

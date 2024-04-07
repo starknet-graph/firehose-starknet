@@ -4,6 +4,7 @@ go 1.22
 
 require (
 	github.com/streamingfast/bstream v0.0.2-0.20240228193450-5200ecab8050
+	github.com/streamingfast/dstore v0.1.1-0.20240325191553-bcce8892a9bb
 	github.com/streamingfast/firehose-core v1.3.3
 	github.com/streamingfast/logging v0.0.0-20230608130331-f22c91403091
 	github.com/stretchr/testify v1.8.4
@@ -154,7 +155,6 @@ require (
 	github.com/streamingfast/dgrpc v0.0.0-20240222213940-b9f324ff4d5c // indirect
 	github.com/streamingfast/dmetering v0.0.0-20240403142935-dc8bb3bb32c3 // indirect
 	github.com/streamingfast/dmetrics v0.0.0-20230919161904-206fa8ebd545 // indirect
-	github.com/streamingfast/dstore v0.1.1-0.20240325191553-bcce8892a9bb // indirect
 	github.com/streamingfast/dtracing v0.0.0-20220305214756-b5c0e8699839 // indirect
 	github.com/streamingfast/jsonpb v0.0.0-20210811021341-3670f0aa02d0 // indirect
 	github.com/streamingfast/opaque v0.0.0-20210811180740-0c01d37ea308 // indirect
