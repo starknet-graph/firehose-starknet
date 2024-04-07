@@ -10,11 +10,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/streamingfast/bstream"
+	pbbstream "github.com/streamingfast/bstream/pb/sf/bstream/v1"
 	pbacme "github.com/streamingfast/firehose-acme/pb/zklend/starknet/type/v1"
 	firecore "github.com/streamingfast/firehose-core"
+	"github.com/streamingfast/firehose-core/node-manager/mindreader"
 	"github.com/streamingfast/logging"
-	"github.com/streamingfast/node-manager/mindreader"
 	"go.uber.org/zap"
 )
 
@@ -114,7 +114,7 @@ func (r *ConsoleReader) readBlock() (out *pbacme.Block, err error) {
 	return block, nil
 }
 
-func (r *ConsoleReader) ReadBlock() (out *bstream.Block, err error) {
+func (r *ConsoleReader) ReadBlock() (out *pbbstream.Block, err error) {
 	block, err := r.readBlock()
 	if err != nil {
 		return nil, err

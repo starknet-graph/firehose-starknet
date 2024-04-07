@@ -1,7 +1,6 @@
 package codec
 
 import (
-	"github.com/streamingfast/bstream"
 	"github.com/streamingfast/logging"
 )
 
@@ -9,6 +8,4 @@ var zlog, _ = logging.PackageLogger("codec", "github.com/streamingfast/firehose-
 
 func init() {
 	logging.InstantiateLoggers()
-
-	bstream.GetBlockPayloadSetter = bstream.MemoryBlockPayloadSetter
 }
