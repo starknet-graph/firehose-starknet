@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && cd ../.. && pwd)"
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && cd .. && pwd)"
 
 # Protobuf definitions
 PROTO_ACME=${2:-"$ROOT/proto"}
@@ -22,9 +22,10 @@ function main() {
   checks
 
   set -e
-  cd "$ROOT/types/pb" &>/dev/null
+  cd "$ROOT/pb" &>/dev/null
 
   generate "zklend/starknet/type/v1/type.proto"
+  generate "zklend/starknet/transform/v1/transforms.proto"
 
   echo "generate.sh - $(date) - $(whoami)" >./last_generate.txt
   echo "streamingfast/firehose-acme/proto revision: $(GIT_DIR=$ROOT/.git git log -n 1 --pretty=format:%h -- proto)" >>./last_generate.txt
