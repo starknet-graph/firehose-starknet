@@ -139,7 +139,7 @@ func (p *TransactionEventFilter) isEventMatched(block *pbacme.Block, event *pbac
 						return true
 					}
 				} else {
-					if block.Height >= blockRange.startBlock && block.Height <= blockRange.endBlock {
+					if block.Height >= blockRange.startBlock && block.Height < blockRange.endBlock {
 						return true
 					}
 				}

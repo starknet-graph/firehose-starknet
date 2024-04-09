@@ -1,2 +1,2 @@
-generate.sh - Sun Apr  7 11:24:38 UTC 2024 - dev
-streamingfast/firehose-acme/proto revision: 3696cce
+generate.sh - Tue Apr  9 16:35:23 UTC 2024 - dev
+streamingfast/firehose-acme/proto revision: 0c158ed

@@ -223,8 +223,8 @@ func (x *TopicWithRanges) GetBlockRanges() []*BlockRange {
 	return nil
 }
 
-// A range of blocks. Both `start_block` and `end_block` are inclusive. When `end_block` is `0`, it means that any
-// block height >= `start_block` is matched.
+// A range of blocks. `start_block` is inclusive, and `end_block` is exclusive. When `end_block` is `0`, it means
+// that any block height >= `start_block` is matched.
 type BlockRange struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
