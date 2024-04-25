@@ -36,7 +36,7 @@ $ sudo docker-compose up -d
 Once everything is up and running, you should be able to subscribe to the block stream with [grpcurl](https://github.com/fullstorydev/grpcurl):
 
 ```console
-$ grpcurl -plaintext -d '{"start_block_num": 0}' localhost:18015 sf.firehose.v2.Stream.Blocks
+$ grpcurl -plaintext -d '{"start_block_num": 0}' localhost:10015 sf.firehose.v2.Stream.Blocks
 ```
 
 As noted in the `docker-compose.yml` file, it only serves as an example of running different services separately. For production workload you might want to deploy a setup with high-availability, taking the file as a starting point.
@@ -66,7 +66,7 @@ $ ./start.sh
 The instrumented `pathfinder` node should now start syncing. You can test the setup by subscribing to the block stream with [grpcurl](https://github.com/fullstorydev/grpcurl):
 
 ```console
-$ grpcurl -plaintext -d '{"start_block_num": 0}' localhost:18015 sf.firehose.v2.Stream.Blocks
+$ grpcurl -plaintext -d '{"start_block_num": 0}' localhost:10015 sf.firehose.v2.Stream.Blocks
 ```
 
 ## Generating protobuf types
