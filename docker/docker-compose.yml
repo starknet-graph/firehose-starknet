@@ -38,6 +38,8 @@ services:
       - "file:///firehose-data/storage/one-blocks"
       - "--common-merged-blocks-store-url"
       - "file:///firehose-data/storage/merged-blocks"
+      - "--common-forked-blocks-store-url"
+      - "file:///firehose-data/storage/forked-blocks"
     volumes:
       - "./firehose-data:/firehose-data"
 
@@ -66,6 +68,8 @@ services:
       - "file:///firehose-data/storage/one-blocks"
       - "--common-merged-blocks-store-url"
       - "file:///firehose-data/storage/merged-blocks"
+      - "--common-forked-blocks-store-url"
+      - "file:///firehose-data/storage/forked-blocks"
       - "--common-live-blocks-addr"
       - "relayer:10014"
     ports:
